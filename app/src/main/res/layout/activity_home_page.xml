@@ -61,12 +61,18 @@
                 android:onClick="gotoorderpage"
                 android:padding="4dp"
                 android:text="Order Page" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="horizontal">
+
 
                 <TextView
                     android:layout_width="100dp"
@@ -84,6 +90,18 @@
                     android:trackTint="@color/moan"
                     android:id="@+id/switchme"
                     android:checked="false"/>
+
+
+            </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Change Number"
+                    android:layout_marginTop="5dp"
+                    android:onClick="changeNumber"
+                    />
             </LinearLayout>
 
         </RelativeLayout>

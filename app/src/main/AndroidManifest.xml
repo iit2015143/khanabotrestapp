@@ -82,9 +82,11 @@
             android:name=".OnLocation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".RestaurantOrderPage"
-            android:theme="@style/AppTheme.Dark"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".RestaurantOrderPage"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".NumberChange"></activity>
     </application>
 
 </manifest>

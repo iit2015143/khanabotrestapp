@@ -226,4 +226,9 @@ public class HomePage extends AppCompatActivity {
     public String getprefsvalue(String key){
         return getSharedPreferences("com.example.root.khanabot",Context.MODE_PRIVATE).getString(key,"");
     }
+
+    public void changeNumber(View view) {
+        Intent numberChange  = new Intent(this,NumberChange.class);
+        startActivity(numberChange);
+    }
 }
