@@ -1,6 +1,7 @@
 package com.iam.root.khanabot;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -68,6 +69,13 @@ public class OrderAcceptedAdapter extends RecyclerView.Adapter<OrderAcceptedAdap
             holder.summary.setText(perorder.getString("summary"));
             holder.orderid.setText(perorder.getString("id"));
             holder.total.setText(perorder.getString("total"));
+            if(perorder.has("address")){
+                holder.address.setText(perorder.getString("address"));
+            }
+            if(perorder.has("revisedTotal")){
+                holder.total.setPaintFlags(holder.total.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.revisedTotal.setText(perorder.getString("revisedTotal"));
+            }
             holder.accept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,12 +121,14 @@ public class OrderAcceptedAdapter extends RecyclerView.Adapter<OrderAcceptedAdap
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView orderid,summary,total,status,number,time;
+        public TextView orderid,summary,total,status,number,time,address,revisedTotal;
         public View view;
         Button accept,decline;
         public MyViewHolder(View view) {
             super(view);
             this.view = view;
+            address = (TextView)view.findViewById(R.id.address);
+            revisedTotal = (TextView)view.findViewById(R.id.revisedTotal);
             time = (TextView)(view.findViewById(R.id.time));
             orderid = (TextView)(view.findViewById(R.id.orderid));
             summary=(TextView)(view.findViewById(R.id.summary));

@@ -1,8 +1,10 @@
 package com.iam.root.khanabot;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +70,16 @@ public class OrderOutAdapter extends RecyclerView.Adapter<OrderOutAdapter.MyView
             holder.orderid.setText(perorder.getString("id"));
             holder.total.setText(perorder.getString("total"));
             holder.mode.setText(perorder.getString("mode"));
-            holder.address.setText(perorder.getString("gLocation"));
+            holder.address.setText(perorder.getString("address"));
+            Log.e("revised Total",perorder.getString("revisedTotal"));
+            if(perorder.has("revisedTotal")){
+                holder.total.setPaintFlags(holder.total.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.revisedTotal.setText(perorder.getString("revisedTotal"));
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.e("error in json",e.toString());
         }
     }
 
@@ -81,7 +89,7 @@ public class OrderOutAdapter extends RecyclerView.Adapter<OrderOutAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView orderid,summary,total,status,number,mode,address,time;
+        public TextView orderid,summary,total,status,number,mode,address,time,revisedTotal;
         public LinearLayout numcontainer;
         public View view;
         Button accept,decline;
@@ -89,6 +97,7 @@ public class OrderOutAdapter extends RecyclerView.Adapter<OrderOutAdapter.MyView
             super(view);
             this.view = view;
             time = (TextView)(view.findViewById(R.id.time));
+            revisedTotal = (TextView)view.findViewById(R.id.revisedTotal);
             mode =(TextView)(view.findViewById(R.id.mode));
             address=(TextView)(view.findViewById(R.id.address));
             numcontainer =(LinearLayout)(view.findViewById(R.id.numcontainer));
