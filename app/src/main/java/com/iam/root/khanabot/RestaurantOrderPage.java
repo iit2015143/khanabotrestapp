@@ -3,6 +3,8 @@ package com.iam.root.khanabot;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -38,6 +41,8 @@ public class RestaurantOrderPage extends AppCompatActivity {
     public OrderOutAdapter orderhistoryAdapter;
     public AllKindOrdersContainer Pending ,History,Current;
     public  Runnable runnable;
+    private CoordinatorLayout coordinatorLayout;
+    Boolean visible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class RestaurantOrderPage extends AppCompatActivity {
         pendingorders = new JSONArray();
         acceptedorders = new JSONArray();
         outfordelorders = new JSONArray();
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(4);
         setupViewPager(viewPager);
@@ -66,6 +72,7 @@ public class RestaurantOrderPage extends AppCompatActivity {
     }
 
     public void makerequest(){
+        final Snackbar snackbar = Snackbar.make(coordinatorLayout,"Internet Connection Failed",Snackbar.LENGTH_INDEFINITE);
         RequestParams params = new RequestParams();
         params.put("number","8574418045");
         RestClient.get("/orderhistoryrest",params,new JsonHttpResponseHandler(){
@@ -76,7 +83,13 @@ public class RestaurantOrderPage extends AppCompatActivity {
                 restaurantorders=response;
                 notifychange();
                 Log.e("response",restaurantorders.toString());
-                Toast.makeText(context,"Updated",Toast.LENGTH_SHORT).show();
+                if(visible) {
+                    snackbar.setText("Connection Restored");
+                    snackbar.setDuration(Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    visible = false;
+                }
+               // Toast.makeText(context,"Updated",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -86,10 +99,26 @@ public class RestaurantOrderPage extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable,JSONObject errorResponse){
                 Log.e("error failure","connection failed in orderhistory");
-                Toast.makeText(context,"Internet connection failed",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context,"Internet connection failed",Toast.LENGTH_SHORT).show();
+                //showSnackBar();
+                if(snackbar.isShown() == false) {
+                    snackbar.setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            makerequest();
+                        }
+                    });
+                    snackbar.show();
+                    visible = true;
+                }
             }
 
         });
+    }
+
+    public void showSnackBar(){
+
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
