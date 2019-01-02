@@ -6,7 +6,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 public class RestClient {
-    private static final String BASE_URL = "http://159.65.158.206:80";
+    private static final String BASE_URL = "http://159.65.158.206:8000";
     //private static final String BASE_URL = "http://172.26.46.65:80";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
